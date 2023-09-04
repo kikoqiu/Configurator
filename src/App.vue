@@ -98,9 +98,6 @@
         >
           Perf
         </router-link>
-        <router-link active-class="is-active" class="navbar-item" to="/log">
-          Log
-        </router-link>
       </div>
       <div v-else class="navbar-start">
         <router-link active-class="is-active" class="navbar-item" to="/">
@@ -109,14 +106,21 @@
         <router-link active-class="is-active" class="navbar-item" to="/flash">
           Flash
         </router-link>
-        <router-link active-class="is-active" class="navbar-item" to="/log">
-          Log
-        </router-link>
       </div>
 
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
+            <button class="button is-primary" @click="downloadLog()">
+              <tooltip entry="log.download">
+                <font-awesome-icon
+                  icon="fa-solid fa-file-export"
+                  size="lg"
+                  fixed-width
+                />
+              </tooltip>
+              <a ref="logDownloadAnchor" style="display: none"></a>
+            </button>
             <button class="button is-primary" @click="setDarkMode(!darkMode)">
               <font-awesome-icon
                 v-if="!darkMode"
@@ -217,7 +221,6 @@ import { computed } from "vue";
 import LogoClean from "./assets/Logo_Clean.svg?component";
 import LogoText from "./assets/Logo_Text.svg?component";
 import LogoTextDevelop from "./assets/Logo_Develop_Text.svg?component";
-import { github } from "./store/util/github";
 
 export default defineComponent({
   name: "app",
@@ -292,6 +295,9 @@ export default defineComponent({
     updateProcessing() {
       return updater.updatePreparing() || updater.updatePending();
     },
+    logDownloadAnchorRef(): HTMLAnchorElement {
+      return this.$refs.logDownloadAnchor as HTMLAnchorElement;
+    },
   },
   methods: {
     timeAgo,
@@ -340,6 +346,19 @@ export default defineComponent({
         .then((value) => {
           return event.sender.send("usb-device", value);
         });
+    },
+    downloadLog() {
+      let file = "";
+      for (const line of this.root.log) {
+        file += line + "\n";
+      }
+      const encoded =
+        "data:text/plain;charset=utf-8," + encodeURIComponent(file);
+      const filename = `Log_${new Date().toISOString()}.txt`;
+
+      this.logDownloadAnchorRef.setAttribute("href", encoded);
+      this.logDownloadAnchorRef.setAttribute("download", filename);
+      this.logDownloadAnchorRef.click();
     },
   },
   created() {
