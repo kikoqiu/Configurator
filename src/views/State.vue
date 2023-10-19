@@ -91,6 +91,30 @@ export default defineComponent({
           title: "Pid Output",
           axis: ["Roll", "Pitch", "Yaw"],
         },
+        {
+          name: "aux_gyro_raw",
+          size: 6,
+          title: "Aux Gyro Raw",
+          axis: ["Roll", "Pitch", "Yaw"],
+        },
+        {
+          name: "aux_gyro",
+          size: 6,
+          title: "Aux Gyro Filter",
+          axis: ["Roll", "Pitch", "Yaw"],
+        },
+        {
+          name: "aux_accel_raw",
+          size: 6,
+          title: "Aux Accel Raw",
+          axis: ["Roll", "Pitch", "Yaw"],
+        },
+        {
+          name: "aux_accel",
+          size: 6,
+          title: "Aux Accel Filter",
+          axis: ["Roll", "Pitch", "Yaw"],
+        },
       ],
     };
   },

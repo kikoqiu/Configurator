@@ -25,6 +25,10 @@ export const useStateStore = defineStore("state", {
     accel_raw: null,
     gyro: null,
     gyro_raw: null,
+    aux_accel: null,
+    aux_accel_raw: null,
+    aux_gyro: null,
+    aux_gyro_raw: null,
   }),
   getters: {
     vbat(state) {
