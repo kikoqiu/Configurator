@@ -257,6 +257,8 @@ export default defineComponent({
         { value: 150, text: "150" },
         { value: 300, text: "300" },
         { value: 600, text: "600" },
+        { value: 1200, text: "1200" },
+        { value: 2400, text: "2400" },
       ],
     };
   },
