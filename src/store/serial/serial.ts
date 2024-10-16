@@ -13,6 +13,8 @@ import { Log } from "@/log";
 import { CBOR } from "./cbor";
 import { getWebSerial } from "./webserial";
 import { settings } from "./settings";
+import bluetooth from "./bluetooth";
+import BtSerialPort from './btSerialPort';
 
 const WebSerial = getWebSerial();
 
@@ -40,7 +42,11 @@ export class Serial {
   private writer?: WritableStreamDefaultWriter<any>;
   private reader?: AsyncQueue;
 
-  public async connect(errorCallback: any = console.warn): Promise<any> {
+  private bt_mode = false;
+
+
+  public async connect(bt:boolean, errorCallback: any = console.warn): Promise<any> {
+    this.bt_mode = bt;
     try {
       await this._connectPort(errorCallback);
       return await this.get(QuicVal.Info, 10_000);
@@ -51,9 +57,13 @@ export class Serial {
   }
 
   private async _connectPort(errorCallback: any = console.warn) {
-    this.port = await WebSerial.requestPort({
-      filters: SERIAL_FILTERS,
-    });
+    if(!this.bt_mode){
+      this.port = await WebSerial.requestPort({
+        filters: SERIAL_FILTERS,
+      });
+    }else{
+      this.port = new BtSerialPort(await bluetooth.requestPermissionDevice());
+    }
     this.waitingCommands = new AsyncSemaphore(1);
 
     await this.port.open({
@@ -157,6 +167,7 @@ export class Serial {
     this.writer = undefined;
 
     this.port = undefined;
+    this.bt_mode = false;
   }
 
   private async _command(

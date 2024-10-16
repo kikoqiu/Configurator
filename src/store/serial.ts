@@ -38,6 +38,7 @@ export const useSerialStore = defineStore("serial", {
   state: () => ({
     is_connected: false,
     is_connecting: false,
+    bt_mode: false,
   }),
   actions: {
     async poll_serial(counter: number) {
@@ -115,7 +116,15 @@ export const useSerialStore = defineStore("serial", {
           return undefined;
         });
     },
+    toggle_connection_bt() {
+      this.bt_mode = true;
+      this._toggle_connection();
+    },
     toggle_connection() {
+      this.bt_mode = false;
+      this._toggle_connection();
+    },
+    _toggle_connection() {
       const root = useRootStore();
       const info = useInfoStore();
       const motor = useMotorStore();
@@ -130,6 +139,7 @@ export const useSerialStore = defineStore("serial", {
 
         this.is_connected = false;
         this.is_connecting = false;
+        this.bt_mode = false;
         root.reset_needs_reboot();
 
         if (router.currentRoute.value.fullPath != "/home") {
@@ -142,7 +152,7 @@ export const useSerialStore = defineStore("serial", {
       this.is_connecting = true;
 
       return serial
-        .connect((err) => {
+        .connect(this.bt_mode, (err) => {
           Log.error("serial", err);
           serial.close();
 
