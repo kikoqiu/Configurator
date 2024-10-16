@@ -8,24 +8,10 @@
         <div class="column">
           <p class="title">
             QUICKSILVER
-            <small class="text-muted">{{ appVersion }}</small>
           </p>
           <p class="subtitle">
-            Checkout our
-            <a
-              target="_blank"
-              href="https://docs.bosshobby.com/"
-              style="font-weight: bold"
-            >
-              Docs</a
-            >
-            for help on getting started.<br />
-            First time users should start on the FLASH tab.
-          </p>
-          <p class="subtitle" v-if="updateAvailable">New Version available!</p>
-          <spinner-btn v-if="updateAvailable" @click="doUpdate">
-            Update Now
-          </spinner-btn>
+            A Mirror Site of https://config.bosshobby.com/
+          </p>          
         </div>
       </div>
     </div>
@@ -55,12 +41,12 @@ export default defineComponent({
     },
   },
   created() {
-    if (!updater.updatePending()) {
+    /*if (!updater.updatePending()) {
       updater.checkForUpdate(
         this.appVersion,
         (updateAvailable) => (this.updateAvailable = updateAvailable)
       );
-    }
+    }*/
   },
 });
 </script>

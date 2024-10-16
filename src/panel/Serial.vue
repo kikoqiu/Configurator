@@ -68,6 +68,28 @@
             </div>
           </div>
         </div>
+
+
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">
+              Serial Quic
+              <tooltip entry="serial.quic" />
+            </label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control is-expanded">
+                <input-select
+                  class="is-fullwidth"
+                  id="serial_quic"
+                  v-model.number="profile.serial.quic"
+                  :options="serialPorts"
+                ></input-select>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

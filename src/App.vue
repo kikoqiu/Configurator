@@ -135,6 +135,12 @@
                 fixed-width
               />
             </button>
+            <spinner-btn v-if="!serial.is_connected && !serial.is_connecting"
+              class="button is-primary"
+              @click="serial.toggle_connection_bt"
+            >
+              {{ "Connect BT" }}
+            </spinner-btn>
             <spinner-btn
               class="button is-primary"
               @click="serial.toggle_connection"

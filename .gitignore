@@ -3,6 +3,7 @@ node_modules
 /web/dist
 /dev-dist
 
+/client/build
 # local env files
 .envrc
 .env.local
